@@ -1,0 +1,29 @@
+<h1>Search  </h1>
+{% for title, link in results %}
+    {% if not title == False %}
+        <div style="border: solid 2px black">
+            <h2>記事ランキング</h2>
+            {{ counter|add:"1"}}
+            <h2>タイトル名</h2>
+            {{ title }}
+            <h2>サイトリンク</h2>
+            {{ link }}
+        {% for key, values in urls.items %}
+            {% if key == title %}
+            <h2>アフィリエイトリンク</h2>
+            <p>リンク個数: {{ values|length }}</p>
+                {% for value in values%}
+                <h3>{{ value }}</h3>        
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endfor%}
+
+<form action="" method="post">
+　　{% csrf_token %}
+    {{ form }}
+    <input type="submit" value="検索する">
+</form>
+
