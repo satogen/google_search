@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 from .forms import SearchForm
-
+import time
 
 def query_string_remove(url):
     return url[:url.find('&')]
@@ -32,18 +32,23 @@ def get_search_results(keyword, counter):
         results = get_find_url(keyword)
     else:
         for i in pagecounter:
-            html_doc = requests.get("https://www.google.com/search?q=" + keyword + "&start=" + str(i)).text
-            soup = BeautifulSoup(html_doc, 'html.parser')
-            tags = soup.find_all('div', class_= 'kCrYT')
-            for tag in tags:
-                link = tag.select("a")
-                if link:
-                    link = query_string_remove(link[0].get("href").replace("/url?q=",""))
-                    links.append(link)
-                    title = get_title(link)
-                    titles.append(title)
+            try:
+                html_doc = requests.get("https://www.google.com/search?q=" + keyword + "&start=" + str(i)).text
+                soup = BeautifulSoup(html_doc, 'html.parser')
+                tags = soup.find_all('div', class_= 'kCrYT')
+                time.sleep(2)
+                for tag in tags:
+                    link = tag.select("a")
+                    if link:
+                        link = query_string_remove(link[0].get("href").replace("/url?q=",""))
+                        links.append(link)
+                        title = get_title(link)
+                        titles.append(title)
+            except:
+                continue
         results = zip(titles, links)
     return results
+
 
 def get_find_url(url):
     titles = []
@@ -74,6 +79,8 @@ def get_aflinks(url, aflinks):
                         # print(urls)
         except Exception as e:
             print('error')
+            continue
+        else:
             continue
     print('complite')
 
