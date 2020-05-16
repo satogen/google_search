@@ -25,7 +25,7 @@ SECRET_KEY = '&1e#@4-g*pr0vgcncfk+(&v92$jza5b76egi$+mwutcu8vx&1)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +48,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #追加
+
 ]
 
 ROOT_URLCONF = 'googleSearch.urls'
